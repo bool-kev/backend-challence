@@ -25,4 +25,19 @@ class ThemeRequest extends FormRequest
             'titre' => ['required', 'string', 'max:255','unique:themes,titre']
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'titre.required' => 'Le titre est obligatoire.',
+            'titre.string' => 'Le titre doit être une chaîne de caractères.',
+            'titre.max' => 'Le titre ne doit pas dépasser :max caractères.',
+            'titre.unique' => 'Le titre existe déjà.'
+        ];
+    }
 }

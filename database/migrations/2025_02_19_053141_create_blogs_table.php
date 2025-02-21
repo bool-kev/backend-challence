@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\V1\BlogStatus;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,8 +19,8 @@ return new class extends Migration
             $table->string("slug")->unique();
             $table->longText("content");
             $table->string("image");
-            $table->enum("status", ["publié", "brouillon", "supprimé"])->default("brouillon");
-            $table->foreignIdFor(User::class,"author_id")->constrained()->cascadeOnDelete();
+            $table->enum("status", BlogStatus::cases())->default(BlogStatus::PUBLISHED);
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamp("published_at")->nullable();
             $table->softDeletes();
             $table->timestamps();

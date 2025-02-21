@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\V1\BlogStatus;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,9 +13,13 @@ class Blog extends Model
     use SoftDeletes;
    
     protected $fillable = [
-        'title',
-        'content',
+        'titre',
+        'contenu',
+        'slug',
+        'status',
         'user_id',
+        'image',
+        'published_at'
     ];
 
     /**
@@ -66,5 +72,11 @@ class Blog extends Model
     public function isLikedBy(User $user)
     {
         return $this->likes->contains($user);
+    }
+
+    public function scopeActive(Builder $query):void
+    {
+        /** @var \Illuminate\Database\Eloquent\Builder $query */
+        $query->where('status', BlogStatus::PUBLISHED);
     }
 }

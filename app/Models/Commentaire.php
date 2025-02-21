@@ -10,7 +10,7 @@ class Commentaire extends Pivot
     protected $table = 'commentaires';
     
     protected $fillable = [
-        'content',
+        'contenu',
         'user_id',
         'blog_id',
     ];

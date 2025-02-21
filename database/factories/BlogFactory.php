@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Blog>
  */
@@ -17,11 +17,13 @@ class BlogFactory extends Factory
      */
     public function definition(): array
     {
+        $title=fake()->title();
         return [
-            "titre" => fake()->title(),
-            "content" => fake()->sentences(5),
+            "titre" => $this,
+            "content" => "lol",
+            "slug" => Str::slug($title),
             "image" => fake()->imageUrl(),
-            "author_id" =>User::factory()
+            "user_id" =>User::factory()
         ];
     }
 }

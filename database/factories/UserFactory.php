@@ -23,12 +23,10 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $genre=fake()->randomElement(['M','F']);
         return [
-            'nom' => $genre=='M'?fake()->firstName():fake()->firstNameFemale(),
-            "prenom" => $genre=='M'?fake()->lastName():fake()->lastNameFemale(),
-            "profil" => fake()->sentence(fake()->random_int(6,10)),
-            "genre" => $genre,
+            'nom' => fake()->firstName(),
+            "prenom" => fake()->lastName(),
+            "bio" => fake()->sentence(3),
             "avatar" => fake()->imageUrl(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Http\Resources\V1\UserCollection;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\V1\StoreUserRequest;
-use App\Http\Resources\V1\UserResource;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\V1\CommentaireRequest;
+use App\Models\Blog;
+use Illuminate\Http\Request;
 
-class UserController extends Controller
+class CommentaireController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return new UserCollection(User::all());
+        
     }
 
     /**
@@ -31,20 +28,23 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(CommentaireRequest $request,Blog $blog)
     {
         $data=$request->validated();
-        $data['password']=Hash::make($request->only("password"));
-        $user = User::create($data);
-        return response()->json(new UserResource($user), 201);
+        $comment=$blog->commentaires()->create($data);
+        return response()->json([
+            'message'=>'Commentaire ajouté avec succès',
+            'commentaire'=>$comment
+        ],201);
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(string $id)
     {
-        return new UserResource($user);
+        //
     }
 
     /**
@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+        //
     }
 
     /**

@@ -4,10 +4,9 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\ThemeRequest;
-use App\Http\Resources\V1\ThemeCollection;
+use App\Http\Resources\V1\Collection\ThemeCollection;
 use App\Http\Resources\V1\ThemeResource;
 use App\Models\Theme;
-use Illuminate\Http\Request;
 
 class ThemeController extends Controller
 {
@@ -19,13 +18,6 @@ class ThemeController extends Controller
         return new ThemeCollection(Theme::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-        
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -37,21 +29,6 @@ class ThemeController extends Controller
         return response()->json(new ThemeResource($theme), 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Theme $theme)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Theme $theme)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

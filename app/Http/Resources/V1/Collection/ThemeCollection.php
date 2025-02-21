@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\V1;
+namespace App\Http\Resources\V1\Collection;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class CommentaireCollection extends ResourceCollection
+class ThemeCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

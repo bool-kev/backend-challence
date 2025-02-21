@@ -7,6 +7,7 @@ use App\Http\Requests\V1\UpdateBlogRequest;
 use App\Models\Blog;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BlogResource;
+use App\Http\Resources\V1\Collection\BlogCollection;
 use App\Models\Theme;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -38,7 +39,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return response()->json(new BlogResource(Blog::all()));
+        $blogs=Blog::active()->with(['user','themes','commentaires'])->latest()->get();
+        return response()->json(BlogResource::collection($blogs),200);
     }
 
     /**
@@ -50,7 +52,6 @@ class BlogController extends Controller
     public function store(StoreBlogRequest $request)
     {
         $data = $request->validated();
-
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('images');
         }
@@ -63,7 +64,7 @@ class BlogController extends Controller
             return response()->json(new BlogResource($blog), 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['error' => 'Failed to create blog'], 500);
+            return response()->json(['message' => 'Erreur lors de la creation du blog','error'=>$e], 500);
         }
     }
 
@@ -74,10 +75,10 @@ class BlogController extends Controller
      * @param \App\Models\Blog $blog
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateBlogRequest $request, Blog $blog)
+    public function update(StoreBlogRequest $request, Blog $blog)
     {
         $data = $request->validated();
-
+        dd($data);
         if ($request->hasFile('image')) {
             Storage::delete($blog->image);
             $data['image'] = $request->file('image')->store('images');
@@ -93,6 +94,12 @@ class BlogController extends Controller
             DB::rollBack();
             return response()->json(['error' => 'Failed to update blog'], 500);
         }
+    }
+
+    public function show(Blog $blog){
+        // $blog->vue++;
+        // $blog->save();
+        return response()->json(new BlogResource($blog->load('user','themes','commentaires')),200);
     }
 
     /**
