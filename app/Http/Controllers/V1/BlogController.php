@@ -78,7 +78,6 @@ class BlogController extends Controller
     public function update(StoreBlogRequest $request, Blog $blog)
     {
         $data = $request->validated();
-        dd($data);
         if ($request->hasFile('image')) {
             Storage::delete($blog->image);
             $data['image'] = $request->file('image')->store('images');
@@ -97,8 +96,8 @@ class BlogController extends Controller
     }
 
     public function show(Blog $blog){
-        // $blog->vue++;
-        // $blog->save();
+        $blog->vue++;
+        $blog->save();
         return response()->json(new BlogResource($blog->load('user','themes','commentaires')),200);
     }
 

@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'nom' => $this->nom,
             'prenom' => $this->prenom,
-            'avatar' => $this->avatar?Storage::url($this->avatar):NULL,
+            'avatar' => $this->avatar?asset(Storage::url($this->avatar)):NULL,
             'bio' => $this->bio,
             'email' => $this->email,
             'createdAt' => $this->created_at,

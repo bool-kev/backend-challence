@@ -4,7 +4,6 @@ namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\ThemeRequest;
-use App\Http\Resources\V1\Collection\ThemeCollection;
 use App\Http\Resources\V1\ThemeResource;
 use App\Models\Theme;
 
@@ -15,7 +14,7 @@ class ThemeController extends Controller
      */
     public function index()
     {
-        return new ThemeCollection(Theme::all());
+        return response()->json(ThemeResource::collection(Theme::all()->load(['blogs'])), 200);
     }
 
 

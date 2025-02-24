@@ -13,4 +13,9 @@ class Theme extends Model
     protected $fillable = [
         'titre'
     ];
+
+    public function blogs()
+    {
+        return $this->belongsToMany(Blog::class,);
+    }
 }
