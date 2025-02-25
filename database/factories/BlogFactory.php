@@ -20,7 +20,7 @@ class BlogFactory extends Factory
         $title=fake()->title();
         return [
             "titre" => $this,
-            "content" => "lol",
+            "content" => fake()->paragraph(),
             "slug" => Str::slug($title),
             "image" => fake()->imageUrl(),
             "user_id" =>User::factory()

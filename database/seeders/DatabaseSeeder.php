@@ -15,13 +15,24 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call([
-            ThemeSeeder::class,
-            BlogSeeder::class
-        ]);
+        // $this->call([
+        //     ThemeSeeder::class,
+        //     BlogSeeder::class
+        // ]);
 
-        User::factory()
-            ->hasBlogs(10)
+        User::factory(
+            [
+                "nom" => "Kouassi",
+                "prenom" => "Kouakou",
+                "bio" => "Je suis un développeur web",
+                "avatar" => "https://picsum.photos/200",
+                "email" => "test@gmail.com"
+            ]
+        )
             ->create();
+            $this->call([
+                ThemeSeeder::class,
+                BlogSeeder::class,
+            ]);
     }
 }
