@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Enums\V1\BlogStatus;
 use App\Http\Requests\V1\StoreBlogRequest;
 use App\Http\Requests\V1\UpdateBlogRequest;
 use App\Models\Blog;
@@ -121,7 +122,7 @@ class BlogController extends Controller
      */
     public function destroy(Blog $blog)
     {
-        $blog->update(['status','deleted']);
+        $blog->update(['status',BlogStatus::DELETED->value]);
         $blog->delete();
         return response()->json(null, 204);
     }

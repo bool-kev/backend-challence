@@ -40,7 +40,7 @@ class StoreBlogRequest extends FormRequest
         $this->merge([
             'slug' => Str::slug($this->titre),
             'user_id' => $this->userId??Auth::user()?->id,
-            'status' => $this->status??'publié'
+            'status' => $this->status??BlogStatus::PUBLISHED->value
         ]);
     }
 

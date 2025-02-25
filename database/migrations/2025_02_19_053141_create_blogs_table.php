@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("slug");
             $table->longText("content");
             $table->string("image");
-            $table->enum("status", BlogStatus::cases())->default(BlogStatus::PUBLISHED);
+            $table->enum("status", array_map(fn($status) => $status->value, BlogStatus::cases()))->default(BlogStatus::PUBLISHED->value);
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamp("published_at")->nullable();
             $table->softDeletes();
