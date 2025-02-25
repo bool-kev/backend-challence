@@ -25,7 +25,7 @@ class BlogResource extends JsonResource
             'slug' => $this->slug,
             'status' => $this->status,
             'vues' => $this->vue,
-            'like' => $this->likes->count(),
+            'like' => $this->likes()->pluck('users.id'),
             'themes' => $this->when($this->relationLoaded('themes'),  ThemeResource::collection($this->themes)),
             'commentaires' => $this->when($this->relationLoaded('commentaires'),  CommentaireResource::collection($this->commentaires)),
             'author' => $this->when($this->relationLoaded('user'), new UserResource($this->user)),

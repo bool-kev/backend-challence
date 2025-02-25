@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('blogs', function (Blueprint $table) {
             $table->id();
             $table->string("titre");
-            $table->string("slug")->unique();
+            $table->string("slug");
             $table->longText("content");
             $table->string("image");
             $table->enum("status", BlogStatus::cases())->default(BlogStatus::PUBLISHED);

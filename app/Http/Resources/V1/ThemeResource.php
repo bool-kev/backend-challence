@@ -17,7 +17,7 @@ class ThemeResource extends JsonResource
         return [
             'id' => $this->id,
             'titre' => $this->titre,
-            'blogs'=> $this->when($this->relationLoaded('articles'), BlogResource::collection($this->blogs))
+            'blogs'=> $this->when($this->relationLoaded('blogs'), $this->blogs->count())
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\V1\BlogStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +17,6 @@ class Theme extends Model
 
     public function blogs()
     {
-        return $this->belongsToMany(Blog::class,);
+        return $this->belongsToMany(Blog::class)->where('status', BlogStatus::PUBLISHED);
     }
 }

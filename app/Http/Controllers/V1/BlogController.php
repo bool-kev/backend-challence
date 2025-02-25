@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\BlogResource;
 use App\Http\Resources\V1\Collection\BlogCollection;
 use App\Models\Theme;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,10 +38,21 @@ class BlogController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $blogs=Blog::active()->with(['user','themes','commentaires'])->latest()->get();
-        return response()->json(BlogResource::collection($blogs),200);
+        try {
+            if($request->get('themes')){
+                $themesArray=explode(",",$request->get('themes'));
+                $blogs=Blog::active()->with(['user','themes','commentaires'])->whereHas('themes',function($query) use($themesArray){
+                    $query->whereIn('titre',$themesArray);
+                })->latest()->paginate(5);
+                return response()->json(new BlogCollection($blogs),200);
+            }
+            $blogs=Blog::active()->with(['user','themes','commentaires'])->latest()->paginate(5);
+            return response()->json(new BlogCollection($blogs),200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erreur Serveur','error'=>$e], 500);
+        }
     }
 
     /**
@@ -53,7 +65,7 @@ class BlogController extends Controller
     {
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('images');
+            $data['image'] = $request->file('image')->store('images','public');
         }
 
         DB::beginTransaction();
@@ -79,8 +91,8 @@ class BlogController extends Controller
     {
         $data = $request->validated();
         if ($request->hasFile('image')) {
-            Storage::delete($blog->image);
-            $data['image'] = $request->file('image')->store('images');
+            Storage::disk('public')->delete($blog->image);
+            $data['image'] = $request->file('image')->store('images','public');
         }
 
         DB::beginTransaction();

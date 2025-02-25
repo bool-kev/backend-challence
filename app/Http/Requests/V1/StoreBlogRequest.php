@@ -37,7 +37,7 @@ class StoreBlogRequest extends FormRequest
 
 
     public function prepareForValidation(){
-        $this->merge([~~
+        $this->merge([
             'slug' => Str::slug($this->titre),
             'user_id' => $this->userId??Auth::user()?->id,
             'status' => $this->status??'publié'
